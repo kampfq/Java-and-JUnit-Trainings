@@ -1,0 +1,395 @@
+* {
+    box-sizing: border-box !important;
+}
+
+body {
+	font-size: 16px;
+}
+
+@font-face {
+  font-family: 'Titillium';
+  font-style: normal;
+  font-weight: 200;
+  src: url( font/Titillium_Web/TitilliumWeb-Light.ttf);
+}
+@font-face {
+  font-family: 'Titillium';
+  font-style: normal;
+  font-weight: normal;
+  src: url( font/Titillium_Web/TitilliumWeb-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'SourceCodePro';
+  font-style: normal;
+  font-weight: normal;
+  src: url( font/SourceCodePro-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: normal;
+  src: url( font/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'CC';
+  font-style: normal;
+  font-weight: normal;
+  src: url( font/cc-icons.ttf);
+}
+
+@cNormalGray: #666;
+@cStandardText: #222;
+@cXceptanceRed: rgb(230, 0, 0);
+@cXceptanceGray: rgb(88, 88, 88);
+@fontSizeSection: 48px;
+
+.shadow {
+	box-shadow: 0px 3px 15px rgba(100,100,100,0.7);
+}
+
+.shadowBottom {
+	box-shadow: 0px 9px 8px -6px rgba(150,150,150,1);
+}
+
+.smallShadow {
+	box-shadow: 0px 2px 8px -1px rgba(150,150,150,0.7);
+}
+
+.center {
+	margin-left: auto !important;
+	margin-right: auto !important;
+	text-align: center !important;
+}
+
+.image-defaults {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    background-color: White;
+    overflow: hidden;
+
+    .shadow;
+
+    &.pure {
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+.training .reveal {
+    background-color: #f0f0ff;
+}
+
+.xlt .reveal {
+    background-color: #fff5f5;
+}
+
+.textDefinition {
+    font-family: "Courier";
+    font-size: 90%;
+    letter-spacing: -0.05em;
+    font-weight: 200;
+    color: @cNormalGray;
+}
+
+.reveal {
+    background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 84%,#eeeeee 100%);
+
+    section {
+        font-family: "Titillium";
+        font-weight: normal;
+        color: @cStandardText;
+        text-align: left;
+
+        font-size: @fontSizeSection;
+
+        h1 {
+            font-family: "Titillium" ;
+            font-weight: bold;
+            letter-spacing: 0.001em;
+            text-align: center;
+            font-size: 400%;
+            text-align: center;
+            margin-top: 1em;
+        }
+        h2 {
+            font-family: "Titillium" ;
+            font-weight: bold;
+            letter-spacing: normal;
+            font-size: 300%;
+            margin-top: 0;
+            margin-bottom: 0.1em;
+            padding-bottom: 0.1em;
+            border-bottom: 0.05em solid @cXceptanceRed;
+
+            .shadowBottom;
+            text-shadow: 0px 6px 8px rgba(150, 150, 150, 0.9);
+        }
+        h3 {
+            font-family: "Titillium" ;
+            font-weight: normal;
+            text-transform: none;
+            font-size: 120%;
+            margin-top: 1em;
+            font-weight: bold;
+        }
+
+        em {
+            font-weight: bold;
+            font-style: normal;
+            font-size: 100%;
+        }
+
+        .left {
+            float: left;
+            width: 49%;
+            margin: 0.1em 0.05em 0.5em 0.05em;
+
+            pre {
+                margin: 0;
+                width: 100%;
+            }
+        }
+
+        .right {
+            float: right;
+            width: 49%;
+            margin: 0.1em 0.05em 0.5em 0.05em;
+
+            pre {
+                margin: 0;
+                width: 100%;
+            }
+
+            img {
+                .image-defaults;
+            }
+        }
+
+        .text-center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        ul {
+            padding:0;
+            margin:0;
+
+            list-style: none;
+
+            li {
+                padding-left: 1em;
+                margin-left: 1em;
+                padding-bottom: 0.3em;
+                text-indent: -0.5em;
+
+                color: @cStandardText;
+
+                &:before {
+                    font-family: FontAwesome;
+                    content: "\f10c";
+                    color: @cXceptanceRed;
+                    position: relative;
+                    left: -1em;
+                    top: -0.2em;
+                    font-size: 60%;
+                }
+
+                ul {
+                    margin-top: 0.5em;
+                }
+
+                strong {
+                    &:after {
+                        content: ':';
+                        margin-left: 0.1em;
+                    }
+                }
+
+                code {
+                    font-size: 90%;
+                }
+            }
+        }
+
+        p {
+            img {
+                .image-defaults;
+            }
+
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            padding: 0.2em 0.5em;
+
+            text-align: justify;
+
+            &.subheadline {
+                font-size: 250%;
+                font-weight: light;
+                color: @cNormalGray;
+                text-align: center;
+                margin-top: 0.2em;
+            }
+            &.presenter {
+                font-size: 150%;
+                color: @cNormalGray;
+                margin-top: -1em;
+                text-align: center;
+            }
+            &.lead {
+                margin-top: 0em;
+                margin-left: 0.05em;
+                margin-right: 0.05em;
+                text-align: justify;
+                font-size: 100%;
+                color: @cNormalGray;
+                padding: 0.5em 0.5em;
+                .smallShadow;
+
+                background-color: lighten(@cNormalGray,80%);
+
+                &.short {
+                    text-align: left;
+                }
+            }
+            &.cc-license {
+                font-family: CC;
+                text-align: center;
+                font-size: 700%;
+                margin: 0.1em 0;
+                padding: 0;
+                background-color: #ABB3AC;
+                text-shadow: 1px 1px 20px rgba(255, 255, 255, 1);
+                .shadow;
+            }
+            &.footer {
+                clear: both;
+                font-size: 80%;
+                text-align: left;
+                color: lighten(@cNormalGray, 20%);
+                padding-top: 0.25em;
+                margin-top: 2em;
+                border-top: 1px solid lighten(@cNormalGray, 20%);
+            }
+            &.comment {
+                font-size: 70%;
+                text-align: justify;
+                color: @cNormalGray;
+                margin-top: 2em;
+            }
+
+            code {
+                .textDefinition;
+            }
+        }
+
+        .info {
+            font-size: 200%;
+            .shadow;
+            background-color: lighten(#009ACD, 1%);
+            color: #FFEC8B;
+            font-family: Roboto;
+            padding: 0.2em 0.2em;
+
+            p {
+                &:first-child {
+                    margin-top: 0;
+                }
+                margin-top: 0.1em;
+                margin-bottom: 0.1em;
+                hyphens: auto;
+            }
+        }
+
+        .focus {
+            color: #ffff33;
+            font-size: 300%;
+        }
+
+        pre {
+            background-color: White;
+            border: none;
+            .shadow;
+
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            padding: 1em 1em;
+            line-height: 1.0em;
+
+            code {
+                font-family: SourceCodePro;
+                max-height: 100%;
+                font-size: 80%;
+                padding: 0;
+                tab-size: 4;
+
+                &.hljs {
+                    background-color: White;
+                    color: #333;
+
+                    .keyword {
+                        font-weight: bold;
+                        color: #003388;
+                    }
+                    .title {
+                        color: #550000;
+                    }
+
+                    .hljs-javadoc {
+                        color: #006600;
+                        .hljs-javadoctag {
+                            font-weight: bold;
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+
+            td {
+                vertical-align: top;
+                padding: 0.5em;
+
+                h3 {
+                    margin: 0;
+                    padding: 0;
+                }
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            &.compact {
+                tr {
+                    &:nth-child(odd) {
+                        background-color: White;
+                    }
+                }
+
+                td {
+                    font-size: 80%;
+                    padding: 0 0.5em;
+                    line-height: 1.2em;
+
+                    &:first-child {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+}

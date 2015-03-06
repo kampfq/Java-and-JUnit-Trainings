@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Writing Clean Java Code and Proper JUnit Tests</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+	<!-- For syntax highlighting -->
+	<link rel="stylesheet" href="css/idea.css">
+
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+
+    <link rel="stylesheet/less" type="text/css" href="css/xceptance-reveal.less" />
+
+	<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+	<script>
+		document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+
+    <!-- enabled watch mode explicitly -->
+	<script src="js/less-1.6.1.min.js" type="text/javascript"></script>
+    <script>less.watch();</script>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+	<!-- ************************************************************* -->
+	<section>
+		<h1>Clean Java Coding and Testing</h1>
+		<p class="subheadline"></p>
+		<p class="presenter">René Schwietzke, Xceptance</p>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>Introduction</h2>
+        <p class="lead short">The big picture about this lecture.</p>
+
+		<ul>
+            <li>Clean Java programming</li>
+			<li>Java JUnit testing</li>
+			<li>Thinking like a programmer</li>
+			<li class="fragment">Thinking like a good programmer</li>
+			<li class="fragment">Thinking like a professional tester</li>
+		</ul>
+
+        <p class="footer">Feel free to ask any question, anytime.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>Misc</h2>
+
+		<p class="lead">What you should know before we start.</p>
+
+		<ul>
+			<li class="fragment">Slides and code are in English only</li>
+			<li class="fragment">This is not a one-way class</li>
+			<li class="fragment">Always ask and discuss</li>
+			<li class="fragment">Some Java knowledge required</li>
+			<li class="fragment">How to use an IDE is not discussed</li>
+			<li class="fragment">
+				If we do not make it through, no problem
+			</li>
+			<li class="fragment">Some stuff could be boring</li>
+		</ul>
+
+		<p class="footer">Rather ask too much than too little.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section  data-transition="zoom" data-background="#009ACD" data-state="information">
+		<div class="info">
+			<p lang="en">
+				Programming is like writing books. Not every book is good,
+				not every book will make you famous, not every book will earn you enough.
+			</p>
+			<p>
+				But a lot of people think they can write a book... cannot be that hard, can it?
+			</p>
+		</div>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>License</h2>
+		<p class="lead">
+			This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
+		</p>
+
+		<p class="cc-license">
+			c b a
+		</p>
+
+		<p class="footer">http://creativecommons.org/licenses/by-sa/4.0/</p>
+	</section>
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* What is Java ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom">
+		<h1>What is Java</h1>
+		<p class="subheadline">A Quick Introduction</p>
+	</section>
+
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>Facts</h2>
+		<!-- <p class="lead short">Historical Facts</p> -->
+
+		<div class="left">
+			<ul>
+				<li>Designed by James Gosling at Sun</li>
+				<li>Simple, object-oriented, familiar</li>
+				<li>Robust and Secure</li>
+				<li>Architecture-neutral and portable</li>
+				<li>High Performance</li>
+				<li>Interpreted, threaded, and dynamic</li>
+			</ul>
+		</div>
+		<div class="right">
+			<ul>
+				<li>1995 Java 1</li>
+				<li>1998 Java 2</li>
+				<li>2004 Java 5</li>
+				<li>2006 Java 6</li>
+				<li>2011 Java 7</li>
+				<li>2014 Java 8</li>
+			</ul>
+		</div>
+		<p class="footer">http://en.wikipedia.org/wiki/Java_%28programming_language%29</p>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>Nice Things</h2>
+		<p class="lead short">Very nice things in Java.</p>
+
+		<ul>
+			<li>Type Safety</li>
+			<li>Memory Management</li>
+			<li>No pointers</li>
+			<li>Multi-Threading</li>
+			<li>Utility Classes (Lists, Maps, IO...)</li>
+			<li>JavaDoc</li>
+			<li>Little OS dependencies</li>
+			<li>Bytecode magic</li>
+		</ul>
+
+		<p class="footer">Very subjective of course.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+	<section>
+		<h2>The Other Things</h2>
+		<p class="lead short">Things you might not like or enjoy.</p>
+
+		<ul>
+			<li>Original Date and Calendar classes</li>
+			<li>Partially difficult Generics</li>
+			<li>No good UI programming support</li>
+			<li>Some APIs are horrible</li>
+		</ul>
+
+		<p class="footer">Most of that can be fixed by external packages.</p>
+	</section>
+
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* Get a task ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom" data-background="#FFE4C4">
+		<h1>Get a Task</h1>
+		<p class="subheadline">No learning without topic.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#FFE4C4">
+        <h2>Our own ArrayList</h2>
+        <p class="lead short">Simple data structure with enough functionality but
+		also with enough room for testing and extensions.</p>
+
+        <ul>
+            <li class="fragment">Similar to <code>java.util.ArrayList</code></li>
+            <li class="fragment">No Generics</li>
+            <li class="fragment">No collection interfaces</li>
+			<li class="fragment">As plain as possible in the beginning</li>
+			<li class="fragment">Typed to String</li>
+        </ul>
+
+        <p class="footer">HashMaps are cooler, but require more algorithmic upfront
+		knowledge.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#FFE4C4">
+        <h2>Our Approach</h2>
+        <p class="lead short">Steps to approach the programming and testing topic.</p>
+
+        <ul>
+            <li class="fragment">Get the basic idea of an ArrayList</li>
+			<li class="fragment">Think about the interface</li>
+			<li class="fragment">Develop an implementation idea</li>
+			<li class="fragment">Lay the foundation</li>
+			<li class="fragment">Code it</li>
+			<li class="fragment">Test it</li>
+        </ul>
+
+        <p class="footer fragment">
+			Testing and coding is normally one
+			thing or even better, testing comes before coding.
+		</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* Requirements and Design ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom" data-background="#FFF8DC" >
+		<h1>Requirements and Design</h1>
+		<p class="subheadline">Let the brain do the work first.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#FFF8DC" >
+        <h2>What is an ArrayList?</h2>
+        <p class="lead fragment">
+			A dynamic array, growable array, resizable array, dynamic table,
+			mutable array, or array list is a random access, variable-size
+			list data structure that allows elements to be added or removed.
+		</p>
+
+        <ul>
+            <li class="fragment">Dynamic size</li>
+			<li class="fragment">Random access</li>
+			<li class="fragment">Adding and Removing</li>
+			<li class="fragment">List = Index</li>
+        </ul>
+
+        <p class="footer fragment">In comparison, an array is statically sized.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#FFF8DC" >
+        <h2>Basic Functionality</h2>
+        <p class="lead short">What is the minimal set of functionality that is needed?</p>
+
+		<div class="left">
+			<ul>
+				<li class="fragment">Does not care about the size</li>
+				<li class="fragment">Elements can be added but where...
+					<ul class="fragment">
+						<li>Add the end</li>
+						<li>Anywhere</li>
+					</ul>
+				</li>
+				<li class="fragment">Add another ArrayList</li>
+			</ul>
+		</div>
+		<div class="right">
+			<ul>
+				<li class="fragment">Get size</li>
+				<li class="fragment">Remove element but where...
+					<ul class="fragment">
+						<li>Anywhere</li>
+						<li>All at once</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+        <p class="footer">Strings only for now.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#FFF8DC" >
+        <h2>Open Questions</h2>
+        <p class="lead short">Question you should immediately ask yourself.</p>
+
+        <ul>
+            <li class="fragment">Is <code>null</code> permitted?</li>
+			<li class="fragment">What happens when something is removed with that position?</li>
+			<li class="fragment">What happens if I want to remove something that does not exist?</li>
+			<li class="fragment">How does the dynamic size thing work?</li>
+			<li class="fragment">Can I insert something beyond the current size?</li>
+			<li class="fragment">How big can it become?</li>
+        </ul>
+
+        <p class="footer">We will talk about the details later. Just keep it in mind.</p>
+    </section>
+
+
+
+	<!-- ************************************************************* -->
+	<!-- *******  Introduction to Coding in Java ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom" data-background="#C5C1AA">
+		<h1>Coding in Java</h1>
+		<p class="subheadline">Styling, Naming, Comments</p>
+	</section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#C5C1AA">
+        <h2>Code Style</h2>
+        <p class="lead short">Personal taste or a standard set by the company your work for.</p>
+
+		<div class="left">
+			<pre><code class="java">/**
+ * Sun-Style
+ */
+public int lastIndexOf(int ch, int fromIndex) {
+    if (ch < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
+        // handle most cases here (ch is a BMP code point or a
+        // negative value (invalid code point))
+        final char[] value = this.value;
+        int i = Math.min(fromIndex, value.length - 1);
+        for (; i >= 0; i--) {
+            if (value[i] == ch) {
+                return i;
+            }
+        }
+        return -1;
+    } else {
+        return lastIndexOfSupplementary(ch, fromIndex);
+    }
+}</code></pre>
+		</div>
+
+		<div class="right">
+			<pre><code class="java">/**
+ * The Other-Style
+ */
+public int lastIndexOf(final int ch, final int fromIndex)
+{
+	if (ch < Character.MIN_SUPPLEMENTARY_CODE_POINT)
+	{
+		// handle most cases here (ch is a BMP code point or a
+		// negative value (invalid code point))
+		final char[] value = this.value;
+		final int pos = Math.min(fromIndex, value.length - 1);
+
+		for (int x = pos; x >= 0; x--)
+		{
+			if (value[x] == ch)
+			{
+				return x;
+			}
+		}
+		return -1;
+	}
+	else
+	{
+		return lastIndexOfSupplementary(ch, fromIndex);
+	}
+}</code></pre>
+		</div>
+
+        <p class="footer">The compiler does not care, but your colleagues do.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+    <section data-background="#C5C1AA">
+        <h2>Naming Classes and Interfaces</h2>
+        <p class="lead short">There is not right or wrong, there is only good and bad.</p>
+
+		<div class="left">
+	        <ul>
+	            <li>Starts uppercase</li>
+	            <li>CamelCase</li>
+	            <li>It should talk!</li>
+	        </ul>
+		</div>
+
+		<div class="right"><pre><code class="java">/**
+ * Classes and Interface Naming
+ */
+public class CalculatorImpl extends Casio
+	implements Calculator
+{
+}</code></pre>
+		</div>
+
+        <p class="footer">Runtime is not affected by length.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#C5C1AA">
+        <h2>Naming Variables and Methods</h2>
+        <p class="lead short">There is not right or wrong, there is only good and bad.</p>
+
+		<div class="left">
+	        <ul>
+	            <li>Starts lowercase except constant data, that is all uppercase</li>
+	            <li>CamelCase</li>
+	            <li>It should talk!</li>
+	        </ul>
+		</div>
+
+		<div class="right"><pre><code class="java">/**
+ * Methods and Variable Naming
+ */
+public class Foobar
+{
+	private static final int DEFAULT = 42;
+	private String testData = "foobar";
+
+	public String getCurrentTestData(final String defaultTestData)
+	{
+		...
+	}
+}</code></pre>
+		</div>
+
+        <p class="footer">Your debugging works better with speaking names.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#C5C1AA">
+        <h2>The Order</h2>
+        <p class="lead short">It does not matter, but it helps.</p>
+
+        <ul>
+            <li>Instance variables</li>
+            <li>Constructors</li>
+            <li>Methods</li>
+			<li>Commons overrides, such as toString, equals, hashCode</li>
+        </ul>
+
+        <p class="footer">It is not always the same IDE hence a plain file should
+			be readable easily as well.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#C5C1AA">
+        <h2>Comments</h2>
+        <p class="lead short">More important than code ;)</p>
+
+		<div class="left">
+	        <ul>
+	            <li>Comment everything.</li>
+				<li>There are never enough comments.</li>
+				<li>You do it for yourself and your colleagues.</li>
+				<li>After two month, you will forget why you wrote it that way.</li>
+	        </ul>
+		</div>
+
+		<div class="right"><pre><code class="java">/**
+ * Class doc
+ * @author Rene Schwietzke
+ */
+public class Foobar
+{
+	/**
+	 * The ultimate number
+	 */
+	public static final int DEFAULT = 42;
+
+	// Our test data with a sensible default
+	private String testData = "foobar";
+
+	/**
+	 * Return the currently set test data. If there is no internal data
+	 * available
+	 * @param defaultTestData
+	 * @return the currently valid test data, either the input default when
+	 *         nothing is set or the currently set data
+	 */
+	public String getCurrentTestData(final String defaultTestData)
+	{
+		...
+	}
+}</code></pre>
+		</div>
+
+        <p class="footer">Comments are source code only.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+	<!-- ******* Check the Env ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom" data-background="#B4EEB4" >
+		<h1>Check the Environment</h1>
+		<p class="subheadline">Align us to speed up programming.</p>
+	</section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#B4EEB4">
+        <h2>You need</h2>
+		<div class="left">
+			<p class="lead short">Verify all of that</p>
+	        <ul>
+	            <li>JDK 7 or higher</li>
+	            <li>An IDE, such as Eclipse, Netbeans, or IntelliJ</li>
+	            <li>Java skills</li>
+				<li>Motivation</li>
+	        </ul>
+		</div>
+
+		<div class="right">
+			<img src="images/eclipse.png" />
+		</div>
+
+        <p class="footer">IDE is a thing of personal preference or employer dictat.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* The ArrayList Again ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom"  >
+		<h1>ArrayList Again</h1>
+		<p class="subheadline">Programming our ideas.</p>
+	</section>
+
+	<!-- *********** attention *************************************** -->
+    <section  data-transition="zoom" data-background="#ff3333" data-state="attention">
+        <div class="focus">
+            <p class="text-center">
+				<i class="fa fa-file-code-o fa-5x animate"></i>
+            </p>
+        </div>
+    </section>
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* We should code like hell now! ************** -->
+	<!-- ************************************************************* -->
+	<section>
+        <h2>Programming</h2>
+		<p class="lead short">Step-by-step</p>
+
+		<div class="left">
+			<ul>
+				<li class="fragment">The package</li>
+				<li class="fragment">The class</li>
+				<li class="fragment">The basic comments</li>
+				<li class="fragment">The interfaces</li>
+				<li class="fragment">Make the skeleton compile</li>
+			</ul>
+		</div>
+
+		<div class="right">
+			<ul>
+				<li class="fragment">Member variables</li>
+				<li class="fragment">All JavaDoc for methods</li>
+				<li class="fragment">Code your ideas as comments</li>
+				<li class="fragment">Finally start to write code</li>
+			</ul>
+		</div>
+
+        <p class="footer">Order is not fix and do not write test code in your class!</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+	<!-- ******* JUnit ************** -->
+	<!-- ************************************************************* -->
+	<section data-transition="zoom" data-background="#eeFFe5">
+		<h1>JUnit</h1>
+		<p class="subheadline">Test the hell out of your code!</p>
+	</section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>What is Unit Testing?</h2>
+        <p class="lead short">How to test code.</p>
+
+        <ul>
+			<li class="fragment">Examines the behavior of a distinct unit of work.</li>
+			<li class="fragment">Small, compact, fast, atomic.</li>
+			<li class="fragment">JUnit is a unit testing framework for the Java programming language.</li>
+			<li class="fragment">JUnit has been important in the development of test-driven development</li>
+		</ul>
+
+		<p class="footer">Testing with JUnit might not be unit testing.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Example</h2>
+
+		<div class="left">
+			<pre><code class="java">	/**
+	 * Removes a string from the list by a given position. If the
+	 * position does not exist, an ArrayIndexOutOfBoundsException is
+	 * thrown.
+	 *
+	 * @param pos the position to remove
+	 * @exception ArrayIndexOutOfBoundsException
+	 * 				when pos is invalid such as negative or too large
+	 * @return the string that has been removed from the list
+	 */
+	public String remove(final int pos)
+	{
+		// get the result
+		final String result = array[pos];
+
+		// we have to close the hole
+		for (int i = pos; i < size - 1; i++)
+		{
+			array[i] = array[i + 1];
+		}
+
+		// to be really great to GC, we have to make sure we do not hold
+		// a copy of the last element at the end, this position should be
+		// empty now. Make it so!
+		array[size - 1] = null;
+
+		// correct size
+		size--;
+
+		// return the result
+		return result;
+	}</code></pre>
+		</div>
+
+		<div class="right">
+			<pre><code class="java">	/**
+	 * Remove last element
+	 */
+	@Test
+	public void removeLastListEntry()
+	{
+		final ArrayList list = new ArrayList();
+		list.add("s1");
+
+		final String r1 = list.remove(0);
+
+		Assert.assertEquals(0, list.size());
+		Assert.assertEquals("s1", r1);
+	}
+
+	/**
+	 * Error handling, remove from empty
+	 */
+	@Test(expected = ArrayIndexOutOfBoundsException.class)
+	public void removeErrorHandling1()
+	{
+		final ArrayList list = new ArrayList();
+		list.remove(0);
+	}</code></pre><p class="footer">One test case or test topic, one test method.</p>
+		</div>
+
+
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Basic Principles</h2>
+        <p class="lead short">No strictly enforced.</p>
+
+		<div class="left">
+	        <ul>
+				<li class="fragment">One class under test, one test class.</li>
+				<li class="fragment">One test case per test method.</li>
+				<li class="fragment">Each method will run independently.</li>
+				<li class="fragment">Stateless.</li>
+			</ul>
+		</div>
+		<div class="right">
+			<ul>
+				<li class="fragment">Repeatability.</li>
+				<li class="fragment">Realiability.</li>
+				<li class="fragment">Predictability.</li>
+				<li class="fragment">Performance.</li>
+			</ul>
+		</div>
+
+		<p class="footer">If it does not run twice, remove it.</p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Advanced Principles</h2>
+        <p class="lead short">Everything beyond this class.</p>
+
+		<div class="left">
+	        <ul>
+				<li class="fragment">Hamcrest as matcher.</li>
+				<li class="fragment">Testing private methods.</li>
+				<li class="fragment">Mocking connected classes.</li>
+				<li class="fragment">Mocking system state, e.g. time.</li>
+			</ul>
+		</div>
+		<div class="right">
+			<ul>
+				<li class="fragment">Using JUnit as concept not methodology.</li>
+				<li class="fragment">Spanning into integration testing.</li>
+				<li class="fragment">Multi-threaded testing.</li>
+			</ul>
+		</div>
+
+		<p class="footer">You can test a lot.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Mark as Test</h2>
+        <p class="lead short">@Test</p>
+
+		<div class="left">
+	        <ul>
+				<li>Java Annotation</li>
+				<li>Marks a method as test method.</li>
+				<li>Has to be public.</li>
+				<li>No return value, no exception permitted.</li>
+			</ul>
+		</div>
+		<div class="right"><pre><code class="java">/**
+ * Remove last element
+ */
+@Test
+public void removeLastListEntry()
+{
+	final ArrayList list = new ArrayList();
+	list.add("s1");
+
+	final String r1 = list.remove(0);
+
+	Assert.assertEquals(0, list.size());
+	Assert.assertEquals("s1", r1);
+}</code></pre></div>
+
+		<p class="footer"></p>
+    </section>
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Assert an assumption</h2>
+        <p class="lead short">org.junit.Assert</p>
+
+		<div class="left">
+	        <ul>
+				<li>Verify the state.</li>
+				<li>Proves the expectations.</li>
+				<li>Can be used often.</li>
+				<li>No very luxurious.</li>
+				<li>For later: http://hamcrest.org/JavaHamcrest/.</li>
+			</ul>
+		</div>
+		<div class="right"><pre><code class="java">/**
+ * Test adding the same data again
+ */
+@Test
+public void addHandlingDuplicateData()
+{
+	final String A = "foo1";
+	final String B = new String("foo1");
+
+	// this is the string challenge :)
+	Assert.assertNotSame(A, B);
+	Assert.assertEquals(A, B);
+
+	final ArrayList list = new ArrayList();
+	Assert.assertEquals(0, list.size());
+}</code></pre></div>
+
+		<p class="footer">If you cannot assert it, you cannot test it.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Expect something</h2>
+        <p class="lead short">@Test (expect = Exception.class)</p>
+
+		<div class="left">
+	        <ul>
+				<li>Check that the exception is thrown.</li>
+				<li>Provoke it.</li>
+				<li>Only type not text can be verified.</li>
+			</ul>
+		</div>
+		<div class="right"><pre><code class="java">/**
+ * Test error handling
+ */
+@Test(expected=NullPointerException.class)
+public void addErrorHandling()
+{
+	final ArrayList list = new ArrayList();
+	list.add((String)null);
+}</code></pre></div>
+
+		<p class="footer">@Role is another one... more advanced.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Setup</h2>
+        <p class="lead short">@After, @Before...</p>
+
+		<div class="left">
+	        <ul>
+				<li>Create data needed.</li>
+				<li>Once per class or once per method.</li>
+				<li>Make sure the cleanup is safe!</li>
+				<li>Do not create side-effects.</li>
+			</ul>
+		</div>
+		<div class="right"><pre><code class="java">/**
+ * Setup data for the test once
+ */
+@BeforeClass
+public void createSomethingOnce() {}
+
+/**
+* Setup data for the test before each method
+*/
+@Before
+public void createSomething() {}
+
+/**
+* Clean up after each test
+*/
+@After
+public void removeStuff() {}
+
+/**
+* Clean up stuff once
+*/
+@After
+public void removeStuffOnce() {}
+</code></pre></div>
+
+		<p class="footer">@Role is another one... more advanced.</p>
+    </section>
+
+
+	<!-- ************************************************************* -->
+    <section data-background="#eeFFe5">
+        <h2>Coverage</h2>
+        <p class="lead short">Measure your testing.</p>
+
+		<div class="left">
+	        <ul>
+				<li>Use tools to measure your test reach.</li>
+				<li>See that you touched every line.</li>
+				<li>See that you covered every branch.</li>
+				<li>Does not mean, the test is meaningful.</li>
+			</ul>
+		</div>
+		<div class="right">
+			<img src="images/coverage.png" style="width:100%;"/>
+		</div>
+
+		<p class="footer">Coverage is nice, but a limited measure.</p>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div> <!-- /reveal -->
+</div> <!-- /slides -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				width: 2200,
+				height: 1080,
+				margin: 0.15,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrollingconcave
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
