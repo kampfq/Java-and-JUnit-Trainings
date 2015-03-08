@@ -202,5 +202,14 @@ public class ArrayList
 		return oldValue;
 	}
 
+		/**
+	 * clears the Arraylist
+	 */
+	
+	public void clear(){
+		list = new String[0];
+		
+	}
+
 
 }

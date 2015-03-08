@@ -309,7 +309,23 @@ public class ArrayListTest
 		Assert.assertEquals(2, list.size());
 		Assert.assertEquals("test2", list.get(0));
 		Assert.assertEquals("test3", list.get(1));
-	}}
+	}
+	@Test
+	public final void clearList() {
+
+		ArrayList list = new ArrayList();
+		list.add("test1");
+		list.add("test2");
+		list.add("test3");
+		
+		list.clear();
+
+		
+		Assert.assertEquals(0, list.size());
+		
+
+	}
+}
 
 
 
